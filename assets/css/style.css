@@ -1,0 +1,47 @@
+body {
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.grid {
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  background: #000;
+  border: 4px solid #fff;
+}
+
+.grid div {
+  width: 20px;
+  height: 20px;
+}
+
+.wall {
+  background: #0011aa;
+}
+
+.pac-dot {
+  background: #000;
+  position: relative;
+}
+
+.pac-dot::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: #ffeb3b;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pacman {
+  background: #ffeb3b;
+  border-radius: 50%;
+}
