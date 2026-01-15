@@ -1,4 +1,4 @@
-// Add grid layout
+// Grid layout
 
 const grid = document.querySelector('.grid');
 const scoreDisplay = document.getElementById('score');
@@ -39,7 +39,7 @@ function createBoard() {
 
 createBoard();
 
-// Add Pac-Man and movement using arrow keys
+// Pac-Man and movement using arrow keys
 
 let pacmanCurrentIndex = 21; // pick a valid index (not a wall)
 
@@ -87,6 +87,7 @@ function movePacman(e) {
 
   eatPacDot();
   squares[pacmanCurrentIndex].classList.add('pacman');
+  checkForWin();
 }
 
 function eatPacDot() {
@@ -97,7 +98,8 @@ function eatPacDot() {
   }
 }
 
-// Add ghosts
+
+// Ghosts
 
 class Ghost {
   constructor(className, startIndex, speed) {
@@ -137,7 +139,10 @@ function moveGhost(ghost) {
 
     checkGameOver();
   }, ghost.speed);
+    checkForWin();
 }
+
+// Game-over condition
 
 function checkGameOver() {
   if (squares[pacmanCurrentIndex].classList.contains('ghost')) {
@@ -146,3 +151,17 @@ function checkGameOver() {
     alert('Game Over');
   }
 }
+
+// Win condition
+
+function checkForWin() {
+  // If there are no pac-dots or pellets left, player wins
+  const remainingDots = document.querySelectorAll('.pac-dot, .power-pellet');
+
+  if (remainingDots.length === 0) {
+    ghosts.forEach(ghost => clearInterval(ghost.timerId));
+    document.removeEventListener('keydown', movePacman);
+    alert('You Win!');
+  }
+}
+
