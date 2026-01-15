@@ -1,3 +1,5 @@
+// Add grid layout
+
 const grid = document.querySelector('.grid');
 const scoreDisplay = document.getElementById('score');
 let score = 0;
@@ -36,6 +38,8 @@ function createBoard() {
 }
 
 createBoard();
+
+// Add Pac-Man and movement using arrow keys
 
 let pacmanCurrentIndex = 21; // pick a valid index (not a wall)
 
@@ -90,5 +94,55 @@ function eatPacDot() {
     squares[pacmanCurrentIndex].classList.remove('pac-dot');
     score += 10;
     scoreDisplay.textContent = score;
+  }
+}
+
+// Add ghosts
+
+class Ghost {
+  constructor(className, startIndex, speed) {
+    this.className = className;
+    this.startIndex = startIndex;
+    this.currentIndex = startIndex;
+    this.speed = speed;
+    this.timerId = null;
+  }
+}
+
+const ghosts = [
+  new Ghost('blinky', 42, 300),
+  new Ghost('pinky', 43, 350),
+];
+
+ghosts.forEach(ghost => {
+  squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+  moveGhost(ghost);
+});
+
+function moveGhost(ghost) {
+  const directions = [-1, +1, -width, +width];
+  let direction = directions[Math.floor(Math.random() * directions.length)];
+
+  ghost.timerId = setInterval(() => {
+    if (
+      !squares[ghost.currentIndex + direction].classList.contains('wall') &&
+      !squares[ghost.currentIndex + direction].classList.contains('ghost')
+    ) {
+      squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost');
+      ghost.currentIndex += direction;
+      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+    } else {
+      direction = directions[Math.floor(Math.random() * directions.length)];
+    }
+
+    checkGameOver();
+  }, ghost.speed);
+}
+
+function checkGameOver() {
+  if (squares[pacmanCurrentIndex].classList.contains('ghost')) {
+    document.removeEventListener('keydown', movePacman);
+    ghosts.forEach(ghost => clearInterval(ghost.timerId));
+    alert('Game Over');
   }
 }
