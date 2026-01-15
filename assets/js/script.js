@@ -36,3 +36,59 @@ function createBoard() {
 }
 
 createBoard();
+
+let pacmanCurrentIndex = 21; // pick a valid index (not a wall)
+
+squares[pacmanCurrentIndex].classList.add('pacman');
+
+document.addEventListener('keydown', movePacman);
+
+function movePacman(e) {
+  squares[pacmanCurrentIndex].classList.remove('pacman');
+
+  switch (e.key) {
+    case 'ArrowLeft':
+      if (
+        pacmanCurrentIndex % width !== 0 &&
+        !squares[pacmanCurrentIndex - 1].classList.contains('wall')
+      ) {
+        pacmanCurrentIndex -= 1;
+      }
+      break;
+    case 'ArrowRight':
+      if (
+        pacmanCurrentIndex % width < width - 1 &&
+        !squares[pacmanCurrentIndex + 1].classList.contains('wall')
+      ) {
+        pacmanCurrentIndex += 1;
+      }
+      break;
+    case 'ArrowUp':
+      if (
+        pacmanCurrentIndex - width >= 0 &&
+        !squares[pacmanCurrentIndex - width].classList.contains('wall')
+      ) {
+        pacmanCurrentIndex -= width;
+      }
+      break;
+    case 'ArrowDown':
+      if (
+        pacmanCurrentIndex + width < width * width &&
+        !squares[pacmanCurrentIndex + width].classList.contains('wall')
+      ) {
+        pacmanCurrentIndex += width;
+      }
+      break;
+  }
+
+  eatPacDot();
+  squares[pacmanCurrentIndex].classList.add('pacman');
+}
+
+function eatPacDot() {
+  if (squares[pacmanCurrentIndex].classList.contains('pac-dot')) {
+    squares[pacmanCurrentIndex].classList.remove('pac-dot');
+    score += 10;
+    scoreDisplay.textContent = score;
+  }
+}
