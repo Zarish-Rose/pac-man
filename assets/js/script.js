@@ -128,8 +128,8 @@ class Ghost {
 }
 
 const ghosts = [
-  new Ghost('blinky', 42, 300),
-  new Ghost('pinky', 43, 350),
+  new Ghost('blinky', 110, 300),
+  new Ghost('pinky', 150, 350),
 ];
 
 ghosts.forEach(ghost => {
@@ -155,7 +155,6 @@ function moveGhost(ghost) {
 
     checkGameOver();
   }, ghost.speed);
-    checkForWin();
 }
 
 // Game-over condition
@@ -180,4 +179,3 @@ function checkForWin() {
     alert('You Win!');
   }
 }
-
